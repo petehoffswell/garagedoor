@@ -1,3 +1,7 @@
+/* garagedoor.items */
+/*
+Place this in your ~/openhab/configurations/items directory
+*/
 Group All
 Group Weather 	(All)
 Group Sensors (All)
