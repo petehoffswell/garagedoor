@@ -1,0 +1,11 @@
+Group All
+Group Weather 	(All)
+Group Sensors (All)
+
+/*Sensors */
+Group Sensors
+Number Yun_Temperature "Garage Temperature [%.1f °F]" <temperature>	(Temperature, Sensors) {mqtt="<[mqttbroker:openhab/office/temperature:state:default]"}
+Number yun_Chart_Period             "Chart Period"
+Number Switch1         "Door Status [MAP(switch.map):%d]"    <garagedoor>       (Sensors) {mqtt="<[mqttbroker:openhab/office/switch1:state:default]"}
+Switch Relay1 "Garage Door"           <garagedoor>    (All) {mqtt=">[mqttbroker:openhab/office/relay1:command:ON:GO]"}
+

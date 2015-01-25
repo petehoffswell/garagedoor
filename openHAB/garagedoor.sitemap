@@ -1,0 +1,14 @@
+sitemap demo label="Garage Door"
+{
+   Frame label="Sensors" {
+      Text item=Yun_Temperature {
+        Frame label="Garage Temperature" {
+           Switch item=yun_Chart_Period label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"]
+           Chart item=Yun_Temperature period=h refresh=6000 visibility=[yun_Chart_Period==0, yun_Chart_Period=="Uninitialized"]
+           Chart item=Yun_Temperature period=D refresh=30000 visibility=[yun_Chart_Period==1]
+           Chart item=Yun_Temperature period=W refresh=30000 visibility=[yun_Chart_Period==2]
+            }
+         }
+      Text item=Switch1
+      Switch item=Relay1 mappings=[ON="Go!"]
+   }
