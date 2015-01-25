@@ -11,7 +11,7 @@
 
 // Variables
 
-// shtx11 to Yun connection
+// shtx11 to Yun connection -----------
 // YUN  > SHTX11
 // 3.3v > VCC 8
 // GND  > GND 4
@@ -19,16 +19,16 @@
 // 11   > CLK 3jk
 #define dataPin  10
 #define clockPin 11
-// YUN > Relay
-// Relay In1 > In1
+// YUN to Relay ---------
+// 8 >  In1
 // GND > GND
 // 5v > VCC
 #define relay1 8 // Banggood dual relay module
 #define led 13 // Onboard LED
 
-// YUN > Switch
-// 2 > Switch NO
-// GND > Switch Comm
+// YUN to Switch ---------------
+// 5v > Switch NO
+// 2 > Switch Comm
 // 2 > GND via pulldown resistor
 const int switch1 = 2;
 
@@ -86,6 +86,12 @@ void loop() {
     pubString = String(switch1State);
     pubString.toCharArray(message_buff, pubString.length()+1);
     mqtt.publish("openhab/office/switch1", message_buff); 
+    // Light LED 
+    if (switch1State == 1){
+      digitalWrite(led,HIGH);
+    } else {
+      digitalWrite(led,LOW);
+    }
     }
   mqtt.loop();
 }
