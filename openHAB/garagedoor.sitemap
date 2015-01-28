@@ -1,7 +1,3 @@
-/* garagedoor.sitemap */
-/*
-Place this in your ~/openhab/configurations/sitemaps directory
-*/
 sitemap demo label="Garage Door"
 {
    Frame label="Sensors" {

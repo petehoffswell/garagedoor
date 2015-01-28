@@ -1,22 +1,23 @@
 // garagedoor
 // January, 2015
-// Interface YUN to SHTX11 temperature/humidity sensor
+// Interface YUN to SHT11 temperature/humidity sensor
 // Report reading to mosquitto mqtt broker server
-//
+// pete@hoffswell.com
+
 #include <SPI.h>
 #include <SHT1x.h>
 #include <Bridge.h>
 #include <YunClient.h>
 #include <PubSubClient.h>
 
-// Variables
+// Variables and Arduino YUN connections
 
 // shtx11 to Yun connection -----------
-// YUN  > SHTX11
+// YUN  > SHT11
 // 3.3v > VCC 8
 // GND  > GND 4
 // 10   > DATA 1
-// 11   > CLK 3jk
+// 11   > CLK 3
 #define dataPin  10
 #define clockPin 11
 // YUN to Relay ---------
@@ -41,7 +42,6 @@ float temp;
 float humidity;
 int switch1State = 0;
 
-
 // Systems Initalization
 YunClient yun;
 PubSubClient mqtt(MQTT_SERVER, 1883, callback, yun);
@@ -64,9 +64,9 @@ void loop() {
   if (!mqtt.connected())  {
     // Connect (or reconnect) to mqtt broker on the openhab server
     mqtt.connect("yun1");
-    mqtt.publish("openhab/office/temperature", "I'm alive!");
-    mqtt.publish("openhab/office/switch1", "I'm alive!");
-    mqtt.subscribe("openhab/office/relay1");
+    mqtt.publish("openhab/garage/temperature", "I'm alive!");
+    mqtt.publish("openhab/garage/switch1", "I'm alive!");
+    mqtt.subscribe("openhab/garage/relay1");
     }
        
   // publish Temperature reading every 10 seconds
@@ -78,14 +78,14 @@ void loop() {
     String pubString = String(temp);
     pubString.toCharArray(message_buff, pubString.length()+1);
     Serial.print(pubString + " F " );
-    mqtt.publish("openhab/office/temperature", message_buff);
+    mqtt.publish("openhab/garage/temperature", message_buff);
     
     //publish switch1 status
     switch1State = digitalRead(switch1);
     Serial.println(switch1State);
     pubString = String(switch1State);
     pubString.toCharArray(message_buff, pubString.length()+1);
-    mqtt.publish("openhab/office/switch1", message_buff); 
+    mqtt.publish("openhab/garage/switch1", message_buff); 
     // Light LED 
     if (switch1State == 1){
       digitalWrite(led,HIGH);
@@ -110,7 +110,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   //Bounce relay
   if ( msgString == "GO" ) {
      digitalWrite(relay1,HIGH);
-     delay(2000);
+     delay(1000);
      digitalWrite(relay1,LOW);
   }
 
