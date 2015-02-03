@@ -86,12 +86,7 @@ void loop() {
     pubString = String(switch1State);
     pubString.toCharArray(message_buff, pubString.length()+1);
     mqtt.publish("openhab/garage/switch1", message_buff); 
-    // Light LED 
-    if (switch1State == 1){
-      digitalWrite(led,HIGH);
-    } else {
-      digitalWrite(led,LOW);
-    }
+    digitalWrite(led,switch1State);    // Light LED   
     }
   mqtt.loop();
 }
@@ -110,7 +105,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   //Bounce relay
   if ( msgString == "GO" ) {
      digitalWrite(relay1,HIGH);
-     delay(1000);
+     delay(1000); 
      digitalWrite(relay1,LOW);
   }
 
